@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VelvetX — Видео для взрослых 18+</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- AGE GATE -->
+<div id="age-gate" class="age-gate">
+  <div class="age-gate__card">
+    <div class="ag-logo">
+      <svg width="48" height="48" viewBox="0 0 56 56" fill="none">
+        <defs><linearGradient id="ag-g" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs>
+        <rect width="56" height="56" rx="14" fill="url(#ag-g)"/>
+        <path d="M10 16L18 32 26 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M30 18L46 36M46 18L30 36" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <span>VelvetX</span>
+    </div>
+    <div class="ag-badge">18+</div>
+    <h2>Этот сайт содержит материалы для взрослых</h2>
+    <p>Подтвердите свой возраст для входа</p>
+    <div class="ag-btns">
+      <button class="btn btn--primary btn--lg" id="age-yes">Да, мне исполнилось 18 лет</button>
+      <button class="btn btn--ghost" id="age-no">Нет, покинуть сайт</button>
+    </div>
+    <p class="ag-note">Входя на сайт, вы принимаете <a href="#">условия использования</a></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr__inner">
+      <a href="#" class="hdr__logo" id="go-home">
+        <svg width="30" height="30" viewBox="0 0 56 56" fill="none">
+          <defs><linearGradient id="h-g" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs>
+          <rect width="56" height="56" rx="13" fill="url(#h-g)"/>
+          <path d="M10 16L18 32 26 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M30 18L46 36M46 18L30 36" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span>VelvetX</span>
+      </a>
+
+      <form class="search-bar" id="search-form">
+        <svg class="search-bar__icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-bar__input" id="search-input" placeholder="Поиск по названию, тегам, категории..." autocomplete="off"/>
+        <div class="search-suggestions" id="search-suggestions"></div>
+        <button type="submit" class="search-bar__btn">Найти</button>
+      </form>
+
+      <div class="hdr__right">
+        <!-- Privacy toggle -->
+        <button class="btn-privacy" id="btn-privacy" onclick="togglePrivacy()" title="Режим приватности">
+          <svg id="privacy-ico" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <!-- Logged OUT -->
+        <div id="auth-out">
+          <button class="btn btn--ghost btn--sm" onclick="openModal('login-modal')">Войти</button>
+          <button class="btn btn--primary btn--sm" onclick="openModal('register-modal')">Регистрация</button>
+        </div>
+        <!-- Logged IN -->
+        <div id="auth-in" class="hidden">
+          <button class="btn btn--upload" id="open-upload">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Загрузить
+          </button>
+          <div class="profile-menu" id="profile-menu">
+            <button class="profile-btn" onclick="toggleProfileMenu()">
+              <div class="profile-ava" id="profile-ava">U</div>
+              <span class="profile-name" id="profile-name">User</span>
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="profile-dropdown hidden" id="profile-dropdown">
+              <div class="pd-head">
+                <div class="pd-ava-lg" id="pd-ava">U</div>
+                <div>
+                  <div class="pd-uname" id="pd-uname">User</div>
+                  <div class="pd-email" id="pd-email">email</div>
+                </div>
+              </div>
+              <div class="pd-sep"></div>
+              <button class="pd-item" onclick="closeProfileMenu();openModal('upload-modal')">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Загрузить видео
+              </button>
+              <div class="pd-sep"></div>
+              <button class="pd-item pd-item--danger" onclick="logout()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Выйти из аккаунта
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+
+    <nav class="cat-nav">
+      <!-- Строка 1: основные категории -->
+      <div class="cat-nav__inner" id="cat-nav">
+        <button class="cnav active" data-cat="all">Все видео</button>
+        <button class="cnav" data-cat="russian">Русские</button>
+        <button class="cnav" data-cat="orgy">Оргии</button>
+        <button class="cnav" data-cat="anal">Анал</button>
+        <button class="cnav" data-cat="orgasm">Жен. оргазмы</button>
+        <button class="cnav" data-cat="beautiful">Красивый секс</button>
+        <button class="cnav" data-cat="homemade">Домашнее</button>
+        <button class="cnav" data-cat="cheating">Измена</button>
+        <button class="cnav" data-cat="rough">Жёсткий</button>
+        <button class="cnav" data-cat="shorts"><span class="nbadge">⚡</span> Shorts</button>
+        <button class="cnav" data-cat="partners">Партнёрам</button>
+        <button class="cnav" data-cat="contact">Контакты</button>
+      </div>
+      <!-- Строка 2: субкатегории -->
+      <div class="subcat-nav" id="subcat-nav">
+        <button class="scnav" data-cat="milf">Мамочки и зрелые</button>
+        <button class="scnav" data-cat="alt">Альтушки</button>
+        <button class="scnav" data-cat="sibling">Брат и сестра</button>
+        <button class="scnav" data-cat="bigboobs">Большие сиськи</button>
+        <button class="scnav" data-cat="creampie">Кончают внутрь</button>
+        <button class="scnav" data-cat="teen">Молодые 18+</button>
+        <button class="scnav" data-cat="lesbian">Лесби</button>
+        <button class="scnav" data-cat="bdsm">BDSM</button>
+        <button class="scnav" data-cat="erotic">Эротика</button>
+        <button class="scnav" data-cat="couples">Couples</button>
+        <button class="scnav" data-cat="amateur">Amateur</button>
+        <button class="scnav" data-cat="art">Art &amp; Beauty</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HOME VIEW -->
+  <div id="view-home" class="view">
+    <div class="ad-row">
+      <div class="ad-strip">
+        <span class="ad-lbl">Реклама</span>
+        <span>Ваш баннер здесь — 970×90 · <a href="#" onclick="openModal('partner-modal')">Разместить</a></span>
+      </div>
+    </div>
+
+    <div class="home-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sb-block">
+          <div class="sb-title">Категории</div>
+          <ul class="sb-cats">
+            <li><button data-cat="russian">Русские</button></li>
+            <li><button data-cat="orgy">Оргии</button></li>
+            <li><button data-cat="anal">Анал</button></li>
+            <li><button data-cat="orgasm">Жен. оргазмы</button></li>
+            <li><button data-cat="beautiful">Красивый секс</button></li>
+            <li><button data-cat="homemade">Домашнее</button></li>
+            <li><button data-cat="cheating">Измена</button></li>
+            <li><button data-cat="rough">Жёсткий</button></li>
+            <li><button data-cat="milf">Мамочки и зрелые</button></li>
+            <li><button data-cat="alt">Альтушки</button></li>
+            <li><button data-cat="sibling">Брат и сестра</button></li>
+            <li><button data-cat="bigboobs">Большие сиськи</button></li>
+            <li><button data-cat="creampie">Кончают внутрь</button></li>
+            <li><button data-cat="teen">Молодые 18+</button></li>
+            <li><button data-cat="lesbian">Лесби</button></li>
+            <li><button data-cat="erotic">Эротика</button></li>
+          </ul>
+        </div>
+        <div class="sb-block">
+          <div class="sb-title">История просмотров</div>
+          <div id="history-list"><p class="sb-empty">Пока ничего нет</p></div>
+        </div>
+        <div class="sb-block">
+          <div class="sb-title">Популярные теги</div>
+          <div class="sb-tags" id="sb-tags"></div>
+        </div>
+        <div class="sidebar__ad">
+          <span class="ad-lbl">Реклама</span>
+          <div class="sb-ad-ph">
+            300×600
+            <a href="#" onclick="openModal('partner-modal')" class="btn btn--primary btn--sm">Разместить</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- FEED -->
+      <main class="feed">
+
+        <!-- TOP AD -->
+        <div class="ad-inline">
+          <span class="ad-lbl">Реклама</span>
+          <div class="ad-inline__ph">728×90 — <a href="#" onclick="openModal('partner-modal')">Разместить рекламу</a></div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <section class="feed-section">
+          <div class="feed-hdr">
+            <span class="feed-hdr__title" id="grid-title">Все видео</span>
+          </div>
+          <!-- Mood-фильтр -->
+          <div class="mood-strip" id="mood-strip">
+            <button class="mood-btn active" data-mood="all"><span class="mood-ico">🎬</span><span>Всё</span></button>
+            <button class="mood-btn" data-mood="romantic"><span class="mood-ico">💕</span><span>Романтика</span></button>
+            <button class="mood-btn" data-mood="passion"><span class="mood-ico">🔥</span><span>Страсть</span></button>
+            <button class="mood-btn" data-mood="home"><span class="mood-ico">🏠</span><span>Домашнее</span></button>
+            <button class="mood-btn" data-mood="couple"><span class="mood-ico">👫</span><span>Пара</span></button>
+            <button class="mood-btn" data-mood="wild"><span class="mood-ico">😈</span><span>Жёсткий</span></button>
+            <button class="mood-btn" data-mood="role"><span class="mood-ico">🎭</span><span>Ролевые</span></button>
+            <button class="mood-btn" data-mood="mature"><span class="mood-ico">👠</span><span>Зрелые</span></button>
+            <button class="mood-btn" data-mood="lesbian"><span class="mood-ico">💋</span><span>Лесби</span></button>
+          </div>
+          <!-- Теги горизонтальный скролл -->
+          <div class="tags-bar" id="tags-bar"></div>
+          <div class="vgrid" id="vgrid"></div>
+          <button class="load-more hidden" id="load-more">Загрузить ещё</button>
+        </section>
+
+        <!-- SHORTS SECTION -->
+        <section class="feed-section" id="shorts-section">
+          <div class="feed-hdr">
+            <span class="feed-hdr__title">VelvetShorts <span class="nbadge">NEW</span></span>
+          </div>
+          <div class="shorts-row" id="shorts-row">
+            <div class="empty-shorts">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--text3)"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M10 8l6 4-6 4V8z"/></svg>
+              <p>Shorts скоро появятся</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOTTOM AD -->
+        <div class="ad-inline">
+          <span class="ad-lbl">Реклама</span>
+          <div class="ad-inline__ph">728×90 — <a href="#" onclick="openModal('partner-modal')">Разместить рекламу</a></div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- WATCH VIEW -->
+  <div id="view-watch" class="view hidden">
+    <div class="watch-wrap" id="watch-wrap">
+      <div class="watch-layout">
+
+        <div class="watch-main">
+          <!-- Player -->
+          <div class="vplayer" id="vplayer">
+            <div class="vplayer__screen" id="vp-screen">
+              <video id="vp-video" preload="metadata">
+                <source id="vp-src" src="" type="video/mp4"/>
+              </video>
+              <div class="vp-overlay" id="vp-overlay">
+                <button class="vp-bigplay" id="vp-bigplay">
+                  <svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+              </div>
+              <div class="vp-skip vp-skip--back" id="skip-back">
+                <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+                <span>10</span>
+              </div>
+              <div class="vp-skip vp-skip--fwd" id="skip-fwd">
+                <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05 1 6.9 2.6L22 7v9h-9l3.62-3.62A7.432 7.432 0 0 0 11.5 10.5C7.96 10.5 4.95 12.81 3.9 16l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg>
+                <span>10</span>
+              </div>
+            </div>
+            <div class="vplayer__controls">
+              <div class="vp-progress" id="vp-progress">
+                <div class="vp-buf" id="vp-buf"></div>
+                <div class="vp-fill" id="vp-fill"></div>
+                <div class="vp-thumb" id="vp-thumb"></div>
+              </div>
+              <div class="vp-bar">
+                <div class="vp-bar-l">
+                  <button class="vc" id="vc-play"><svg id="vc-play-ico" width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+                  <button class="vc" id="vc-mute"><svg id="vc-vol-ico" width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+                  <input type="range" id="vp-vol" class="vp-volslider" min="0" max="100" value="80"/>
+                  <span class="vp-time" id="vp-cur">0:00</span>
+                  <span class="vp-time" style="opacity:.3">/</span>
+                  <span class="vp-time" id="vp-dur">0:00</span>
+                </div>
+                <div class="vp-bar-r">
+                  <button class="vc vc--label" id="vc-autoplay">
+                    <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                    Автоплей
+                    <span class="ap-dot" id="ap-dot"></span>
+                  </button>
+                  <button class="vc" id="vc-theater" title="Театральный режим">
+                    <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>
+                  </button>
+                  <select class="vp-quality" id="vp-quality">
+                    <option>1080p</option><option selected>720p</option><option>480p</option><option>360p</option>
+                  </select>
+                  <button class="vc" id="vc-pip" title="Картинка в картинке">
+                    <svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><rect x="12" y="10" width="8" height="6" rx="1"/></svg>
+                  </button>
+                  <button class="vc" id="vc-fs">
+                    <svg width="15" height="15" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="watch-info">
+            <h1 class="watch-title" id="w-title"></h1>
+            <div class="watch-meta">
+              <div class="watch-meta-l">
+                <span id="w-views"></span>
+                <span class="dot">·</span>
+                <span id="w-date"></span>
+                <span class="dot">·</span>
+                <span class="watch-cat-badge" id="w-cat"></span>
+              </div>
+              <div class="watch-meta-r">
+                <button class="wbtn" id="w-like">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  <span id="w-likes-n">0</span>
+                </button>
+                <button class="wbtn" id="w-dislike">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+                </button>
+                <button class="wbtn" id="w-fav">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                  Сохранить
+                </button>
+                <button class="wbtn" id="w-download">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Скачать
+                </button>
+                <button class="wbtn" onclick="shareVideo()">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  Поделиться
+                </button>
+                <button class="wbtn" id="w-edit" style="display:none">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Изменить
+                </button>
+                <button class="wbtn wbtn--danger" id="w-delete" style="display:none">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                  Удалить
+                </button>
+              </div>
+            </div>
+
+            <!-- Rating bar -->
+            <div class="rating-bar"><div class="rating-bar__fill" id="rating-fill"></div></div>
+            <div class="rating-bar__labels"><span id="rating-like-pct"></span><span id="rating-dis-pct"></span></div>
+
+            <!-- Tags -->
+            <div class="watch-tags" id="w-tags"></div>
+
+            <!-- Description -->
+            <div class="watch-desc" id="w-desc-wrap">
+              <p id="w-desc"></p>
+            </div>
+
+            <!-- Ad -->
+            <div class="ad-watch">
+              <span class="ad-lbl">Реклама</span>
+              <div class="ad-watch-ph">728×90 — <a href="#" onclick="openModal('partner-modal')">Разместить рекламу</a></div>
+            </div>
+
+            <!-- Comments -->
+            <div class="comments">
+              <div class="comments__hdr">
+                <span id="comments-count">Комментарии (0)</span>
+                <select class="sort-sel" onchange="sortComments(this.value)">
+                  <option value="new">По дате</option>
+                  <option value="top">По популярности</option>
+                </select>
+              </div>
+              <form class="comment-form" onsubmit="addComment(event)">
+                <div class="comment-ava comment-ava--you"></div>
+                <div style="flex:1;">
+                  <input type="text" class="comment-input" id="comment-input" placeholder="Добавить комментарий..."/>
+                  <div class="comment-btns hidden" id="comment-btns">
+                    <button type="button" class="btn btn--ghost btn--sm" onclick="cancelComment()">Отмена</button>
+                    <button type="submit" class="btn btn--primary btn--sm">Отправить</button>
+                  </div>
+                </div>
+              </form>
+              <div id="comments-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ASIDE -->
+        <aside class="watch-aside">
+          <div class="watch-aside__top">
+            <span class="wa-title">Следующее</span>
+            <label class="autoplay-toggle" onclick="toggleAutoplay()">
+              <span>Автоплей</span>
+              <div class="toggle-sw" id="toggle-sw"><div class="toggle-knob"></div></div>
+            </label>
+          </div>
+          <div id="related-list"></div>
+          <div class="watch-aside-ad">
+            <span class="ad-lbl">Реклама</span>
+            <div class="wa-ad-ph">300×250<br/><a href="#" onclick="openModal('partner-modal')">Разместить</a></div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTNERS VIEW -->
+  <div id="view-partners" class="view hidden">
+    <div class="simple-page">
+      <h1>Партнёрская программа</h1>
+      <p class="sp-sub">Зарабатывайте вместе с VelvetX</p>
+      <div class="partner-grid">
+        <div class="pcard"><div class="pcard__ico">🎬</div><h3>Создателям контента</h3><ul><li>До 80% от доходов</li><li>Монетизация видео</li><li>Персональный канал</li><li>Аналитика</li></ul><button class="btn btn--primary" onclick="openModal('partner-modal')">Стать партнёром</button></div>
+        <div class="pcard pcard--hot"><div class="pcard__crown">Популярно</div><div class="pcard__ico">📢</div><h3>Рекламодателям</h3><ul><li>Баннеры всех форматов</li><li>Pre-roll реклама</li><li>Таргетинг</li><li>Аналитика CTR</li></ul><button class="btn btn--primary" onclick="openModal('partner-modal')">Разместить рекламу</button></div>
+        <div class="pcard"><div class="pcard__ico">🔗</div><h3>Агентствам</h3><ul><li>Партнёрские ссылки</li><li>Комиссия до 40%</li><li>Менеджер</li><li>API</li></ul><button class="btn btn--outline" onclick="openModal('partner-modal')">Подробнее</button></div>
+      </div>
+      <div class="sp-stats">
+        <div class="sp-stat"><b>—</b><span>Пользователей</span></div>
+        <div class="sp-stat"><b>—</b><span>Просмотров/мес</span></div>
+        <div class="sp-stat"><b>98%</b><span>Выплаты в срок</span></div>
+        <div class="sp-stat"><b>24/7</b><span>Поддержка</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT VIEW -->
+  <div id="view-contact" class="view hidden">
+    <div class="simple-page">
+      <h1>Контакты</h1>
+      <p class="sp-sub">Мы всегда готовы помочь</p>
+      <div class="contact-cards">
+        <a href="https://t.me/folder887" target="_blank" class="ccard">
+          <div class="ccard__ico ccard__ico--tg"><svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+          <h3>Telegram</h3><p>Поддержка и партнёрство</p><strong>@folder887</strong>
+        </a>
+        <div class="ccard" onclick="openModal('partner-modal')" style="cursor:pointer">
+          <div class="ccard__ico">💼</div><h3>Для бизнеса</h3><p>Реклама, API, интеграции</p><strong>Отправить заявку →</strong>
+        </div>
+        <a href="https://t.me/folder887" target="_blank" class="ccard">
+          <div class="ccard__ico">🛡️</div><h3>Техподдержка</h3><p>Технические вопросы</p><strong>Написать в Telegram</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ftr">
+    <div class="ftr__inner">
+      <div class="ftr__left">
+        <div class="ftr__logo"><svg width="22" height="22" viewBox="0 0 56 56" fill="none"><defs><linearGradient id="f-g" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs><rect width="56" height="56" rx="13" fill="url(#f-g)"/><path d="M10 16L18 32 26 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M30 18L46 36M46 18L30 36" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg>VelvetX</div>
+        <span class="ftr__age">18+</span>
+        <span>© 2024 VelvetX. Все права защищены.</span>
+      </div>
+      <div class="ftr__links">
+        <a href="#">Условия</a><a href="#">Конфиденциальность</a><a href="#">DMCA</a>
+        <a href="#">18 U.S.C. § 2257</a><a href="https://t.me/folder887" target="_blank">Telegram: @folder887</a>
+      </div>
+    </div>
+    <p class="ftr__disc">Все модели на момент съёмки достигли возраста 18 лет. Контент предназначен исключительно для совершеннолетних.</p>
+  </footer>
+</div>
+
+<!-- SHORTS VIEWER (TikTok style) -->
+<div id="view-shorts" class="sv-overlay hidden">
+  <div class="sv-topbar">
+    <button class="sv-close-btn" onclick="closeShortsViewer()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="sv-counter" id="sv-counter">1 / 1</div>
+    <button class="sv-mute-btn" id="sv-mute-btn" onclick="shortsMuteToggle()">
+      <svg id="sv-mute-ico" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    </button>
+  </div>
+  <button class="sv-nav sv-nav--up" onclick="shortsScrollTo(-1)">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <button class="sv-nav sv-nav--dn" onclick="shortsScrollTo(1)">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="sv-feed" id="sv-feed"></div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="modal" id="upload-modal">
+  <div class="modal__bg" onclick="closeModal('upload-modal')"></div>
+  <div class="modal__box modal__box--upload">
+    <button class="modal__x" onclick="closeModal('upload-modal')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+
+    <!-- Step 1: Drop -->
+    <div id="up-s1">
+      <h2 class="modal-h">Загрузить видео</h2>
+      <p class="modal-sub">MP4, WebM, MOV, AVI — любой размер</p>
+      <div class="drop-zone" id="drop-zone">
+        <input type="file" id="up-file" accept="video/*" style="display:none"/>
+        <div id="dz-content" onclick="document.getElementById('up-file').click()">
+          <svg width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--text3);display:block;margin:0 auto 16px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p>Перетащите видео сюда</p>
+          <span>или нажмите для выбора файла</span>
+          <button type="button" class="btn btn--primary" style="margin-top:14px" onclick="event.stopPropagation();document.getElementById('up-file').click()">Выбрать файл</button>
+        </div>
+      </div>
+      <div class="up-progress hidden" id="up-progress">
+        <div class="up-progress__bar"><div class="up-progress__fill" id="up-prog-fill"></div></div>
+        <p id="up-prog-label">Обрабатываем видео...</p>
+      </div>
+    </div>
+
+    <!-- Step 2: Details -->
+    <div id="up-s2" class="hidden">
+      <h2 class="modal-h">Детали видео</h2>
+      <div class="up-layout">
+        <div class="up-left">
+          <div class="up-preview"><img id="up-thumb-img" src="" alt=""/></div>
+          <p class="up-label">Выберите обложку</p>
+          <div class="up-thumbs" id="up-thumbs"></div>
+        </div>
+        <div class="up-right">
+          <form id="up-form" onsubmit="publishVideo(event)">
+            <div class="fg"><label>Название *</label><input type="text" class="fi" id="up-title" placeholder="Название видео" required maxlength="120"/></div>
+            <div class="fg"><label>Описание</label><textarea class="fi" id="up-desc" rows="3" placeholder="Описание видео..."></textarea></div>
+            <div class="fg"><label>Категория</label>
+              <select class="fi" id="up-cat">
+                <option value="russian">Русские</option>
+                <option value="homemade">Домашнее</option>
+                <option value="orgy">Оргии</option>
+                <option value="anal">Анал</option>
+                <option value="orgasm">Жен. оргазмы</option>
+                <option value="beautiful">Красивый секс</option>
+                <option value="cheating">Измена</option>
+                <option value="rough">Жёсткий</option>
+                <option value="milf">Мамочки и зрелые</option>
+                <option value="alt">Альтушки</option>
+                <option value="sibling">Брат и сестра</option>
+                <option value="bigboobs">Большие сиськи</option>
+                <option value="creampie">Кончают внутрь</option>
+                <option value="teen">Молодые 18+</option>
+                <option value="lesbian">Лесби</option>
+                <option value="bdsm">BDSM</option>
+                <option value="erotic">Эротика</option>
+                <option value="couples">Couples</option>
+                <option value="amateur">Amateur</option>
+                <option value="art">Art &amp; Beauty</option>
+              </select>
+            </div>
+            <div class="fg"><label>Теги (через запятую)</label><input type="text" class="fi" id="up-tags" placeholder="русское, HD, amateur..."/></div>
+            <div class="fg"><label>Тип контента</label>
+              <div class="radio-row">
+                <label class="radio-opt"><input type="radio" name="up-type" value="video" checked/><span>Видео</span></label>
+                <label class="radio-opt"><input type="radio" name="up-type" value="short"/><span>Short</span></label>
+              </div>
+            </div>
+            <div class="up-form-btns">
+              <button type="button" class="btn btn--ghost" onclick="resetUpload()">← Назад</button>
+              <button type="submit" class="btn btn--primary">Опубликовать</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Done -->
+    <div id="up-s3" class="hidden up-done">
+      <svg width="56" height="56" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      <h2>Видео опубликовано!</h2>
+      <p>Оно уже отображается в ленте</p>
+      <button class="btn btn--primary" onclick="closeModal('upload-modal');resetUpload()">Отлично!</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="edit-modal">
+  <div class="modal__bg" onclick="closeModal('edit-modal')"></div>
+  <div class="modal__box">
+    <button class="modal__x" onclick="closeModal('edit-modal')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h2>Редактировать видео</h2>
+    <form onsubmit="saveEdit(event)">
+      <div class="fg"><label>Название</label><input type="text" class="fi" id="edit-title" required/></div>
+      <div class="fg"><label>Описание</label><textarea class="fi" id="edit-desc" rows="3"></textarea></div>
+      <div class="fg"><label>Категория</label>
+        <select class="fi" id="edit-cat">
+          <option value="russian">Русские</option><option value="homemade">Домашнее</option>
+          <option value="orgy">Оргии</option><option value="anal">Анал</option>
+          <option value="orgasm">Жен. оргазмы</option><option value="beautiful">Красивый секс</option>
+          <option value="cheating">Измена</option><option value="rough">Жёсткий</option>
+          <option value="milf">Мамочки и зрелые</option><option value="alt">Альтушки</option>
+          <option value="sibling">Брат и сестра</option><option value="bigboobs">Большие сиськи</option>
+          <option value="creampie">Кончают внутрь</option><option value="teen">Молодые 18+</option>
+          <option value="lesbian">Лесби</option><option value="bdsm">BDSM</option>
+          <option value="erotic">Эротика</option><option value="couples">Couples</option>
+          <option value="amateur">Amateur</option><option value="art">Art &amp; Beauty</option>
+        </select>
+      </div>
+      <div class="fg"><label>Теги (через запятую)</label><input type="text" class="fi" id="edit-tags"/></div>
+      <button type="submit" class="btn btn--primary btn--full">Сохранить</button>
+    </form>
+  </div>
+</div>
+
+<!-- LOGIN / REGISTER / PARTNER -->
+<div class="modal" id="login-modal">
+  <div class="modal__bg" onclick="closeModal('login-modal')"></div>
+  <div class="modal__box">
+    <button class="modal__x" onclick="closeModal('login-modal')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <div class="m-logo"><svg width="36" height="36" viewBox="0 0 56 56" fill="none"><defs><linearGradient id="ml1" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs><rect width="56" height="56" rx="14" fill="url(#ml1)"/><path d="M10 16L18 32 26 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M30 18L46 36M46 18L30 36" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+    <h2>Войти в аккаунт</h2>
+    <form onsubmit="handleLogin(event)">
+      <div class="fg"><label>Email или логин</label><input type="text" class="fi" id="l-login" placeholder="your@email.com" required/></div>
+      <div class="fg"><label style="display:flex;justify-content:space-between">Пароль <a href="#" class="fl">Забыли?</a></label>
+        <div class="fi-wrap"><input type="password" class="fi" id="lp" placeholder="••••••••" required/><button type="button" class="fi-eye" onclick="togglePass('lp')"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </div>
+      <button type="submit" class="btn btn--primary btn--full">Войти</button>
+      <p class="m-sw">Нет аккаунта? <a href="#" onclick="switchModal('login-modal','register-modal')">Зарегистрироваться</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="register-modal">
+  <div class="modal__bg" onclick="closeModal('register-modal')"></div>
+  <div class="modal__box">
+    <button class="modal__x" onclick="closeModal('register-modal')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <div class="m-logo"><svg width="36" height="36" viewBox="0 0 56 56" fill="none"><defs><linearGradient id="ml2" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs><rect width="56" height="56" rx="14" fill="url(#ml2)"/><path d="M10 16L18 32 26 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M30 18L46 36M46 18L30 36" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+    <h2>Создать аккаунт</h2>
+    <form onsubmit="handleRegister(event)">
+      <div class="fg"><label>Имя пользователя</label><input type="text" class="fi" id="r-username" placeholder="username" required/></div>
+      <div class="fg"><label>Email</label><input type="email" class="fi" id="r-email" placeholder="your@email.com" required/></div>
+      <div class="fg"><label>Пароль</label>
+        <div class="fi-wrap"><input type="password" class="fi" id="rp1" placeholder="Минимум 8 символов" required minlength="8"/><button type="button" class="fi-eye" onclick="togglePass('rp1')"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </div>
+      <div class="fg"><label>Повторите пароль</label><input type="password" class="fi" id="rp2" placeholder="••••••••" required/></div>
+      <label class="chk"><input type="checkbox" required/><span>Мне 18+ лет и я принимаю <a href="#">условия</a></span></label>
+      <button type="submit" class="btn btn--primary btn--full">Создать аккаунт</button>
+      <p class="m-sw">Есть аккаунт? <a href="#" onclick="switchModal('register-modal','login-modal')">Войти</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="partner-modal">
+  <div class="modal__bg" onclick="closeModal('partner-modal')"></div>
+  <div class="modal__box modal__box--wide">
+    <button class="modal__x" onclick="closeModal('partner-modal')"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h2>Стать партнёром VelvetX</h2>
+    <p class="m-sub">Заполните заявку — свяжемся в течение 24 часов</p>
+    <form onsubmit="handlePartner(event)">
+      <div class="frow"><div class="fg"><label>Имя / Компания</label><input type="text" class="fi" placeholder="Ваше имя" required/></div><div class="fg"><label>Тип</label><select class="fi"><option>Создатель контента</option><option>Рекламодатель</option><option>Агентство</option><option>Другое</option></select></div></div>
+      <div class="frow"><div class="fg"><label>Email</label><input type="email" class="fi" placeholder="business@email.com" required/></div><div class="fg"><label>Telegram</label><input type="text" class="fi" placeholder="@yourtelegram"/></div></div>
+      <div class="fg"><label>Сайт</label><input type="text" class="fi" placeholder="https://..."/></div>
+      <div class="fg"><label>О проекте</label><textarea class="fi" rows="3" placeholder="Опишите проект..."></textarea></div>
+      <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
+      <p class="m-sw">Или напрямую: <a href="https://t.me/folder887" target="_blank">@folder887</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
